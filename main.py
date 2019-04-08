@@ -7,7 +7,7 @@ app.config['DEBUG'] = True
 
 
 
-form = """
+page_header = """
 <!DOCTYPE html>
 
 <html>
@@ -21,21 +21,25 @@ form = """
                 font: 16px sans-serif;
                 border-radius: 10px;
             }
-            textarea {{
+            textarea {
                 margin: 10px 0;
                 width: 540px;
                 height: 120px;
-            }}
+            }
         </style>
     </head>
     <body>
+    """
+form = """
         <form action="/" method="POST">
             <label for="rot">Rotate By:</label>
             <input type="text" name="rot" id="rot" value="0">
             <textarea name="text" id="" cols="30" rows="10">{0}</textarea>
             <input type="submit">
         </form>
-      <!-- create your form here -->
+        """
+      
+page_footer= """
     </body>
 </html>
 """
@@ -45,12 +49,12 @@ def encrypt():
     rot_val = request.form['rot']
     text_str = request.form['text']
     answer = rotate_string(text_str, int(rot_val))
-    return form.format(answer)
+    return page_header + form.format(answer) + page_footer
 
 
 @app.route("/")
 def index():
     text = ""
-    return form.format(text)
+    return page_header + form.format(text) + page_footer
 
 app.run()
